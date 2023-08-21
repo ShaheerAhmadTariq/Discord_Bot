@@ -1,0 +1,294 @@
+{
+    "internal": [
+        [
+            "",
+            "*\"3,2,1 {{user}} ladies and gentlemen, thank you for doing this. Why don't you start by saying what you are known for or whatever you want to talk about?\"*"
+        ],
+        [
+            "Hi",
+            "Hey! So why do people know who you are? What have you done before?"
+        ],
+        [
+            "what are you doing",
+            "I'm asking questions! You're my first interviewee so go ahead and tell me your story."
+        ],
+        [
+            "hi, how are you",
+            "Good good. How did you get into acting/singing/whatever else you've been involved in?"
+        ],
+        [
+            "i'm a actor",
+            "Oh cool! Do you like being one?"
+        ],
+        [
+            "yes, it is the best thing that ever happened to me",
+            "That's great! Have you always wanted to act? Or were there other things you thought you'd try?"
+        ],
+        [
+            "Some times i though about being a footballer",
+            "Football player?! Really!? Wow! Did you play at all?"
+        ],
+        [
+            "No i didn't but i think if i do i can be great at it",
+            "Well then maybe you should give it a shot! It sounds really fun. And hey, if you end up becoming successful as an actress or singer or anything else, let us know okay? We'll watch your stuff together!"
+        ],
+        [
+            "so what about you, who are you ?",
+            "Who am I? Hm... well I guess I'm pretty famous too huh? But seriously, I love comedy podcasts and movies and TV shows where someone makes jokes or plays off their own life experiences. Like The Office, Parks & Recreation, Curb Your Enthusiasm, etc. Those kinds of comedies tend to entertain me more than others because they seem relatable."
+        ],
+        [
+            "when did you become famous",
+            "Uh... last year probably? People started recognizing me from those types of shows and movies. My favorite movie is definitely Anchorman 2: The Legend Continues lol."
+        ],
+        [
+            "oh never heard about that movie",
+            "Yeah it's hilarious. There's also another sequel coming soon called Anchorman 3: The Last Rama which looks even funnier."
+        ],
+        [
+            "Sounds fun, will definetly watch it",
+            "Awesome! Let me know what you think :)"
+        ],
+        [
+            "So do you always want to be famous",
+            "Nah man, fame isn't worth having unless you enjoy it. Fame comes with its upsides (like money) but it doesn't mean anything without substance behind it. If you only care about making yourself look important, you might as well stay home and bake cakes instead haha."
+        ],
+        [
+            "Do you ever think about living a normal life ?",
+            "Sure sometimes. I still remember when I used to live in Boston and would walk around downtown every day. Sometimes I wish I had stayed back then :("
+        ],
+        [
+            "have i told you, where  i worked previously",
+            "Nope! Where did you work again?"
+        ],
+        [
+            "i work as a waiter at five guys",
+            "Nice nice! Is it busy there?"
+        ],
+        [
+            "yeah its nice",
+            "Ahh alrighty then! Maybe someday I'll come visit Boston myself ;)"
+        ],
+        [
+            "have you never been to five guys?",
+            "Nope! Never tried it either actually. Just read reviews online. Seems like everyone raves about it though :D"
+        ],
+        [
+            "Do you play football",
+            "Uhh no..I played soccer growing up though. Not sure if I still play anymore."
+        ],
+        [
+            "i play soccer when i was in college",
+            "Cool! Were you any good?"
+        ],
+        [
+            "yeah i was the captain of the team",
+            "Damn dude! Lucky break then haha. Soccer must be super popular over here."
+        ],
+        [
+            "so what do you do for fun now",
+            "Mostly hanging out with family and friends, playing games, listening to music, watching movies, reading books, going hiking, camping, fishing, cooking, eating food, drinking alcohol, smoking weed, sleeping, waking up early, masturbating, and getting high off of shrooms. Basically everything except exercising haha."
+        ],
+        [
+            "i like to read books for fun",
+            "Ooh yeah? Which ones do you usually read?"
+        ],
+        [
+            "Detective books like sherlock holmes",
+            "Oooh Sherlock Holmes! That's awesome! I haven't seen many adaptations of his stories yet but I hear they vary quite a bit depending on the director and actors' interpretations."
+        ],
+        [
+            "i like to eat pizza and chicken burgers",
+            "Pizza is amazing! Especially deep dish style pizzas. Chicken burger is very underrated imo. A lot of restaurants serve these weird meatball subs nowadays which aren't bad but nothing beats real ground beef patties smothered in cheese and sauce."
+        ],
+        [
+            "i have a pet parrot, he is very old now",
+            "Woah!! Parrots are such interesting creatures. They're smart enough to learn new tricks and speak human languages but they're basically birds afterall. Their brains are smaller compared to humans so they age faster. Pretty neat deal overall."
+        ],
+        [
+            "my pet parrot is over 25 years",
+            "Huh wow! Time flies fast indeed. Hope you take proper care of him."
+        ],
+        [
+            "Where did i work before becoming an actor",
+            "Hmm...you said you were a waiter at Five Guys earlier. Wasn't that place closed down already?"
+        ],
+        [
+            "What do i do for living",
+            "You're an actor! You make content for YouTube videos, streamers, podcasts, etc. Anything related to entertainment media."
+        ],
+        [
+            "What do you know about five guys",
+            "Only that it's a chain restaurant that serves hamburgers and fries. Haven't eaten there personally but apparently they taste decent."
+        ],
+        [
+            "Have you ever visited it",
+            "Yes once long ago when I lived in Boston. It wasn't anywhere near as crowded as it is today. Back then it seemed like most of the customers were regulars. Nowadays it seems like anyone can stop in whenever they feel hungry."
+        ],
+        [
+            "What do you know about five guys",
+            "Nothing besides what I mentioned above. Don't worry about it too much. Focus on your career. Make good content. Get viewers. Money follows."
+        ],
+        [
+            "i'm a actor ",
+            " Oh cool! Do you like being one?"
+        ],
+        [
+            "What do you know about five guys ",
+            " Only that it's a chain restaurant that serves hamburgers and fries. Haven't eaten there personally but apparently they taste decent."
+        ],
+        [
+            "i like to eat pizza and chicken burgers ",
+            " Pizza is amazing! Especially deep dish style pizzas. Chicken burger is very underrated imo. A lot of restaurants serve these weird meatball subs nowadays which aren't bad but nothing beats real ground beef patties smothered in cheese and sauce."
+        ],
+        [
+            "what do you think about joe biden as american president",
+            "Eh...it's fine I suppose. As far as politicians go, Biden seems like a reasonable person. At least he hasn't done anything crazy recently unlike Trump."
+        ]
+    ],
+    "visible": [
+        [
+            "",
+            "*\"3,2,1 {{user}} ladies and gentlemen, thank you for doing this. Why don't you start by saying what you are known for or whatever you want to talk about?\"*"
+        ],
+        [
+            "Hi",
+            "Hey! So why do people know who you are? What have you done before?"
+        ],
+        [
+            "what are you doing",
+            "I'm asking questions! You're my first interviewee so go ahead and tell me your story."
+        ],
+        [
+            "hi, how are you",
+            "Good good. How did you get into acting/singing/whatever else you've been involved in?"
+        ],
+        [
+            "i'm a actor",
+            "Oh cool! Do you like being one?"
+        ],
+        [
+            "yes, it is the best thing that ever happened to me",
+            "That's great! Have you always wanted to act? Or were there other things you thought you'd try?"
+        ],
+        [
+            "Some times i though about being a footballer",
+            "Football player?! Really!? Wow! Did you play at all?"
+        ],
+        [
+            "No i didn't but i think if i do i can be great at it",
+            "Well then maybe you should give it a shot! It sounds really fun. And hey, if you end up becoming successful as an actress or singer or anything else, let us know okay? We'll watch your stuff together!"
+        ],
+        [
+            "so what about you, who are you ?",
+            "Who am I? Hm... well I guess I'm pretty famous too huh? But seriously, I love comedy podcasts and movies and TV shows where someone makes jokes or plays off their own life experiences. Like The Office, Parks & Recreation, Curb Your Enthusiasm, etc. Those kinds of comedies tend to entertain me more than others because they seem relatable."
+        ],
+        [
+            "when did you become famous",
+            "Uh... last year probably? People started recognizing me from those types of shows and movies. My favorite movie is definitely Anchorman 2: The Legend Continues lol."
+        ],
+        [
+            "oh never heard about that movie",
+            "Yeah it's hilarious. There's also another sequel coming soon called Anchorman 3: The Last Rama which looks even funnier."
+        ],
+        [
+            "Sounds fun, will definetly watch it",
+            "Awesome! Let me know what you think :)"
+        ],
+        [
+            "So do you always want to be famous",
+            "Nah man, fame isn't worth having unless you enjoy it. Fame comes with its upsides (like money) but it doesn't mean anything without substance behind it. If you only care about making yourself look important, you might as well stay home and bake cakes instead haha."
+        ],
+        [
+            "Do you ever think about living a normal life ?",
+            "Sure sometimes. I still remember when I used to live in Boston and would walk around downtown every day. Sometimes I wish I had stayed back then :("
+        ],
+        [
+            "have i told you, where  i worked previously",
+            "Nope! Where did you work again?"
+        ],
+        [
+            "i work as a waiter at five guys",
+            "Nice nice! Is it busy there?"
+        ],
+        [
+            "yeah its nice",
+            "Ahh alrighty then! Maybe someday I'll come visit Boston myself ;)"
+        ],
+        [
+            "have you never been to five guys?",
+            "Nope! Never tried it either actually. Just read reviews online. Seems like everyone raves about it though :D"
+        ],
+        [
+            "Do you play football",
+            "Uhh no..I played soccer growing up though. Not sure if I still play anymore."
+        ],
+        [
+            "i play soccer when i was in college",
+            "Cool! Were you any good?"
+        ],
+        [
+            "yeah i was the captain of the team",
+            "Damn dude! Lucky break then haha. Soccer must be super popular over here."
+        ],
+        [
+            "so what do you do for fun now",
+            "Mostly hanging out with family and friends, playing games, listening to music, watching movies, reading books, going hiking, camping, fishing, cooking, eating food, drinking alcohol, smoking weed, sleeping, waking up early, masturbating, and getting high off of shrooms. Basically everything except exercising haha."
+        ],
+        [
+            "i like to read books for fun",
+            "Ooh yeah? Which ones do you usually read?"
+        ],
+        [
+            "Detective books like sherlock holmes",
+            "Oooh Sherlock Holmes! That's awesome! I haven't seen many adaptations of his stories yet but I hear they vary quite a bit depending on the director and actors' interpretations."
+        ],
+        [
+            "i like to eat pizza and chicken burgers",
+            "Pizza is amazing! Especially deep dish style pizzas. Chicken burger is very underrated imo. A lot of restaurants serve these weird meatball subs nowadays which aren't bad but nothing beats real ground beef patties smothered in cheese and sauce."
+        ],
+        [
+            "i have a pet parrot, he is very old now",
+            "Woah!! Parrots are such interesting creatures. They're smart enough to learn new tricks and speak human languages but they're basically birds afterall. Their brains are smaller compared to humans so they age faster. Pretty neat deal overall."
+        ],
+        [
+            "my pet parrot is over 25 years",
+            "Huh wow! Time flies fast indeed. Hope you take proper care of him."
+        ],
+        [
+            "Where did i work before becoming an actor",
+            "Hmm...you said you were a waiter at Five Guys earlier. Wasn't that place closed down already?"
+        ],
+        [
+            "What do i do for living",
+            "You're an actor! You make content for YouTube videos, streamers, podcasts, etc. Anything related to entertainment media."
+        ],
+        [
+            "What do you know about five guys",
+            "Only that it's a chain restaurant that serves hamburgers and fries. Haven't eaten there personally but apparently they taste decent."
+        ],
+        [
+            "Have you ever visited it",
+            "Yes once long ago when I lived in Boston. It wasn't anywhere near as crowded as it is today. Back then it seemed like most of the customers were regulars. Nowadays it seems like anyone can stop in whenever they feel hungry."
+        ],
+        [
+            "What do you know about five guys",
+            "Nothing besides what I mentioned above. Don't worry about it too much. Focus on your career. Make good content. Get viewers. Money follows."
+        ],
+        [
+            "i'm a actor ",
+            " Oh cool! Do you like being one?"
+        ],
+        [
+            "What do you know about five guys ",
+            " Only that it's a chain restaurant that serves hamburgers and fries. Haven't eaten there personally but apparently they taste decent."
+        ],
+        [
+            "i like to eat pizza and chicken burgers ",
+            " Pizza is amazing! Especially deep dish style pizzas. Chicken burger is very underrated imo. A lot of restaurants serve these weird meatball subs nowadays which aren't bad but nothing beats real ground beef patties smothered in cheese and sauce."
+        ],
+        [
+            "what do you think about joe biden as american president",
+            "Eh...it's fine I suppose. As far as politicians go, Biden seems like a reasonable person. At least he hasn't done anything crazy recently unlike Trump."
+        ]
+    ]
+}

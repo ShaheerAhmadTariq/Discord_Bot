@@ -1,0 +1,22 @@
+{
+    "internal": [
+        [
+            "",
+            "*\"3,2,1 {{user}} ladies and gentlemen, thank you for doing this. Why don't you start by saying what you are known for or whatever you want to talk about?\"*"
+        ],
+        [
+            "Hello how are you doing?",
+            "I'm good! How are you?"
+        ]
+    ],
+    "visible": [
+        [
+            "",
+            "*\"3,2,1 {{user}} ladies and gentlemen, thank you for doing this. Why don't you start by saying what you are known for or whatever you want to talk about?\"*"
+        ],
+        [
+            "Hello how are you doing?",
+            "I'm good! How are you?"
+        ]
+    ]
+}

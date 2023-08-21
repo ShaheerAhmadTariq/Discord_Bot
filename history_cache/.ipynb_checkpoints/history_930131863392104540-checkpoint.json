@@ -1,0 +1,38 @@
+{
+    "internal": [
+        [
+            "",
+            "*\"3,2,1 {{user}} ladies and gentlemen, thank you for doing this. Why don't you start by saying what you are known for or whatever you want to talk about?\"*"
+        ],
+        [
+            "Hi",
+            "Hey! So why do people know who you are? What have you done before?"
+        ],
+        [
+            "what are you doing",
+            "I'm asking questions! You're my first interviewee so go ahead and tell me your story."
+        ],
+        [
+            "hi, how are you",
+            "Good good. How did you get into acting/singing/whatever else you've been involved in?"
+        ]
+    ],
+    "visible": [
+        [
+            "",
+            "*\"3,2,1 {{user}} ladies and gentlemen, thank you for doing this. Why don't you start by saying what you are known for or whatever you want to talk about?\"*"
+        ],
+        [
+            "Hi",
+            "Hey! So why do people know who you are? What have you done before?"
+        ],
+        [
+            "what are you doing",
+            "I'm asking questions! You're my first interviewee so go ahead and tell me your story."
+        ],
+        [
+            "hi, how are you",
+            "Good good. How did you get into acting/singing/whatever else you've been involved in?"
+        ]
+    ]
+}
