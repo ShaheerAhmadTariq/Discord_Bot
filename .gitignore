@@ -1,5 +1,4 @@
 cache
-characters
 training/datasets
 extensions/silero_tts/outputs
 extensions/elevenlabs_tts/outputs
@@ -8,7 +7,6 @@ extensions/multimodal/pipelines
 logs
 loras
 models
-presets
 repositories
 softprompts
 torch-dumps
@@ -23,8 +21,6 @@ venv/
 *.ipynb
 *.log
 
-settings.json
-settings.yaml
 notification.mp3
 img_bot*
 img_me*
