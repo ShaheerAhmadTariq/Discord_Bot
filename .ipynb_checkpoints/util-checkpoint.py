@@ -1,6 +1,7 @@
 from database import update_user_time
 from mutagen.mp3 import MP3
 import time
+import datetime
 def update_time(userTime, start_time, user_id, end_time):
     # end_time = time.time()
     print("end time", end_time, "start time", start_time, "user time", userTime)
@@ -28,3 +29,8 @@ def update_text_time(userTime, start_time, user_id, end_time):
     remaining_amount = userTime - time_taken_minutes
     print("remaining_time_int", int(remaining_amount))
     update_user_time(user_id, int(remaining_amount))
+
+def is_subscription_active(last_subscription_time):
+    now = datetime.datetime.now()
+    time_difference = now - last_subscription_time
+    return time_difference <= datetime.timedelta(days=30)

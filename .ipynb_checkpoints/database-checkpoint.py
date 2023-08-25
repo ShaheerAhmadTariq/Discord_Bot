@@ -10,9 +10,10 @@ MONGODB_DB_NAME = os.environ.get('MONGODB_DB_NAME')
 
 MongoURL = os.environ.get('MONGO')
 def connect_to_db():
-    client = MongoClient("mongodb+srv://shaheerahmad:0j3mNEwj2GeuOK2D@sgm.kze22.mongodb.net/test")
+    # client = MongoClient("mongodb+srv://shaheerahmad:0j3mNEwj2GeuOK2D@sgm.kze22.mongodb.net/test")
+    client = MongoClient("mongodb+srv://azeem:azeem@cluster0.fcusdwv.mongodb.net/?retryWrites=true&w=majority")
     # client = MongoClient(MongoURL)
-    db = client['test']
+    db = client['bot2']
     users = db["users"]
     message_history = db["message_history"]
     llm_message_history = db["llm_message_history"]
@@ -20,16 +21,16 @@ def connect_to_db():
     return users, message_history, user_preferences, llm_message_history
 
 def connect_to_db_free():
-    client = MongoClient("mongodb+srv://shaheerahmad:0j3mNEwj2GeuOK2D@sgm.kze22.mongodb.net/test")
-    # client = MongoClient(MongoURL)
-    db = client['test']
+    # client = MongoClient("mongodb+srv://shaheerahmad:0j3mNEwj2GeuOK2D@sgm.kze22.mongodb.net/test")
+    client = MongoClient(MongoURL)
+    db = client['bot2']
     user_free_trail = db["free_trial"]
     return user_free_trail
 
 def connect_to_db_extras():
-    client = MongoClient("mongodb+srv://shaheerahmad:0j3mNEwj2GeuOK2D@sgm.kze22.mongodb.net/test")
-    # client = MongoClient(MongoURL)
-    db = client['test']
+    # client = MongoClient("mongodb+srv://shaheerahmad:0j3mNEwj2GeuOK2D@sgm.kze22.mongodb.net/test")
+    client = MongoClient(MongoURL)
+    db = client['bot2']
     user_extras = db["extras"]
     return user_extras
     

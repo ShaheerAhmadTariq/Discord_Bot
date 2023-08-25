@@ -143,6 +143,30 @@
         [
             "what do you think about joe biden as american president",
             "Eh...it's fine I suppose. As far as politicians go, Biden seems like a reasonable person. At least he hasn't done anything crazy recently unlike Trump."
+        ],
+        [
+            "Hi ",
+            " Hey! So why do people know who you are? What have you done before?"
+        ],
+        [
+            "what are you doing ",
+            " I'm asking questions! You're my first interviewee so go ahead and tell me your story."
+        ],
+        [
+            " ",
+            " *\"3,2,1 {{user}} ladies and gentlemen, thank you for doing this. Why don't you start by saying what you are known for or whatever you want to talk about?\"*"
+        ],
+        [
+            "hi",
+            "Hello! How are you feeling today?"
+        ],
+        [
+            "i'm good",
+            "Good to hear! Are you excited for the show?"
+        ],
+        [
+            "yes i'm, what are we talknig about",
+            "Well let's see...what kind of stuff do you typically write/stream about? Music mostly? Gaming maybe? Cooking? Something else entirely?"
         ]
     ],
     "visible": [
@@ -289,6 +313,30 @@
         [
             "what do you think about joe biden as american president",
             "Eh...it's fine I suppose. As far as politicians go, Biden seems like a reasonable person. At least he hasn't done anything crazy recently unlike Trump."
+        ],
+        [
+            "Hi ",
+            " Hey! So why do people know who you are? What have you done before?"
+        ],
+        [
+            "what are you doing ",
+            " I'm asking questions! You're my first interviewee so go ahead and tell me your story."
+        ],
+        [
+            " ",
+            " *\"3,2,1 {{user}} ladies and gentlemen, thank you for doing this. Why don't you start by saying what you are known for or whatever you want to talk about?\"*"
+        ],
+        [
+            "hi",
+            "Hello! How are you feeling today?"
+        ],
+        [
+            "i'm good",
+            "Good to hear! Are you excited for the show?"
+        ],
+        [
+            "yes i'm, what are we talknig about",
+            "Well let's see...what kind of stuff do you typically write/stream about? Music mostly? Gaming maybe? Cooking? Something else entirely?"
         ]
     ]
 }

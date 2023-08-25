@@ -16,7 +16,7 @@ from chain import chain_setup, get_chain_response
 from embed_messages import welcome_embed, help_embed, balance_embed
 from text_to_speech import get_audio
 from transcribe_audio import oga_2_mp3_2_text
-from util import update_time, update_text_time
+from util import is_subscription_active 
 from helpers import check_if_user_exists, create_cache_history, add_user_to_user_json, get_conversation_history, delete_cache_history, delete_last_message_cache_history
 from database import save_message_to_db, connect_to_db, create_user, get_user, update_user, update_user_time, delete_message_history, save_preferences_to_db, get_preferences, change_preferences, save_message_llm_to_db, change_voice, update_user_time, create_user_free, get_user_free, update_user_free, create_or_update_user_extra, get_user_extras
 TOKEN = os.environ.get('TOKEN')
@@ -49,6 +49,7 @@ async def on_ready():
         print(e)
 
 predefined_messages = ["Hey there! It's been a day since we chatted. Want to catch up?", "Time flies! It's been 24 hours since our last chat. Let's continue our conversation!","Hey, don't leave me hanging! It's been a whole day since we talked. Let's dive back in!", "Hope you're doing well! Just a friendly reminder that we haven't chatted in a day. Let's chat again soon!","Hi! It's been 24 hours since our last interaction. Let's pick up where we left off!","Missing our conversations! It's been a day. Ready to continue?","Hello! Can you believe it's been 24 hours? Let's keep our chat going!","Time for a chat check-in! A day has passed since we last talked. What's new?","Hey, hope you're having a great day! Remember, we haven't talked in 24 hours. Let's chat!","Hey, it's been a day since our last chat. Let's not wait any longer to continue our conversation!"]
+
 @tasks.loop(minutes=1)
 async def check_inactive_users():
     all_users = get_user_extras()
@@ -138,18 +139,6 @@ async def clear_history_command(ctx: discord.Interaction):
    delete_message_history(user_id)
    return await ctx.response.send_message("history cleared")
     
-@bot.tree.command(name='balance', description='Prints remaining balance')
-async def balance(ctx: discord.Interaction):
-    user_id = str(ctx.user.mention).replace('<@', '').replace('>', '')
-    found, user = get_user(user_id)
-    if found:
-        amount = round(user['last_message_time']/60, 2)
-        message_str = f"Your remaining balance is **{amount}$**."
-        return await ctx.response.send_message(message_str)
-    else:
-        message_str = f"Your balance is **0$**."
-        return await ctx.response.send_message(message_str)
-
 @bot.event
 async def on_message(message):
     if message.author.bot or not isinstance(message.channel, discord.DMChannel):
@@ -157,12 +146,9 @@ async def on_message(message):
     view = View()
     # Define payment links for different amounts
     payment_links = {
-        "🌸 $5": "https://buy.stripe.com/4gw153gfB2uWevC3cc",
-        # "🌸 $5": "https://buy.stripe.com/test_fZefZV8Z0cDLfMQcMO",
-        "🔥 $10": "https://buy.stripe.com/9AQ6pn8N95H82MUeUV",
-        "❤️ $15": "https://buy.stripe.com/aEU4hf5AXd9Acnu9AC",
-        "💎 $25": "https://buy.stripe.com/00g4hf9RdfhI3QY6or",
-        "⭐ $Custom": "https://buy.stripe.com/6oE00Zd3p5H8cnu148"
+        "🌸 $15": "https://buy.stripe.com/eVa5lj1kH6LcgDK8wD",
+        "🔥 $50": "https://buy.stripe.com/00gcNL6F17Pg3QYaEM",
+        "⭐ $100": "https://buy.stripe.com/7sI1530gDglMfzGdQZ"
     }
     # Create buttons for each payment link
     for amount, link in payment_links.items():
@@ -197,9 +183,8 @@ async def on_message(message):
         if not user['payment_status']:
             await message.reply(embed=embed_repay, view=view)
             return
-        # Calculate the elapsed time since the user started the conversation
-        if user['last_message_time'] <= 0:
-            update_user(user_id)
+        # Calculate the elapsed time since the user started the conversation        
+        if not is_subscription_active(user['last_subscription_time']):
             await message.reply(embed=embed_repay, view=view)
             return
     create_or_update_user_extra(user_id)
@@ -215,6 +200,14 @@ async def on_message(message):
         voice_response = user_preference['voice']
     user_text = message.content
     start_time = 0
+    payment_tier = user['subscription_payment']
+    allowed_characters = 0
+    if payment_tier == 15:
+        allowed_characters = 12495
+    elif payment_tier == 50:
+        allowed_characters = 24990
+    elif payment_tier == 100:
+        allowed_characters = 49980
     if message.attachments:
         attachment = message.attachments[0]
         if attachment.filename.endswith(".ogg"):
@@ -223,7 +216,7 @@ async def on_message(message):
 
             # Convert voice message to text
             transcription = oga_2_mp3_2_text(user_id)
-            text_start_time = time.time()
+            # text_start_time = time.time()
             if local_llm:
                 # model_res = "local_llm"
                 model_res = await send_message_llm(message)
@@ -232,20 +225,15 @@ async def on_message(message):
                 model_res = get_chain_response(user_id, transcription, user_name)
                 # Save message to database
                 save_message_to_db(user_id, transcription, model_res)
-            text_end_time = time.time()
+            # text_end_time = time.time()
                 # Convert response to audio
             if voice_response:
-                audio_path, audio_duration = get_audio(user_id, model_res)
-    
-                # Send audio as reply to the user's message
-                audio_file = discord.File(audio_path)
-                await message.reply(file=audio_file)
-                update_time(user['last_message_time'], start_time, user_id, audio_duration)
-
-                # Remove the audio file
-                os.remove(audio_path)
-            else:
-                # If content is too long, split it into multiple messages
+                # Convert response to audio
+                if len(model_res) - model_res.count(" ") <= allowed_characters:
+                    audio_path, _ = get_audio(user_id, model_res)
+                    audio_file = discord.File(audio_path)
+                    await message.reply(file=audio_file)
+                    os.remove(audio_path)
                 if len(model_res) <= 2000:
                     # If within limit, send the content as a single message
                     await message.reply(model_res)
@@ -254,35 +242,6 @@ async def on_message(message):
                     chunks = [model_res[i:i + 2000] for i in range(0, len(model_res), 2000)]
                     for chunk in chunks:
                         await message.channel.send(chunk)
-                # await message.reply(model_res)
-                update_text_time(user['last_message_time'], text_start_time, user_id, text_end_time)
-            # Remove the voice message file
-            # os.remove(f"{user_id}.ogg")
-
-    else:
-        # Get response
-        text_start_time = time.time()
-        if local_llm:
-            # model_res = "local_llm"
-            model_res = await send_message_llm(message)
-            # save_message_llm_to_db(user_id, user_text, model_res)
-        else:
-            model_res = get_chain_response(user_id, user_text, user_name)
-            # model_res = "testing on message"
-        # Save message to database
-            save_message_to_db(user_id, user_text, model_res)
-        text_end_time = time.time()
-        if voice_response:
-            # Convert response to audio
-            audio_path, audio_duration = get_audio(user_id, model_res)
-    
-            # Send audio as reply to the user's message
-            audio_file = discord.File(audio_path)
-            await message.reply(file=audio_file)
-        # audio_duration = 10
-            update_time(user['last_message_time'], start_time, user_id, audio_duration)
-            # Remove the audio file
-            os.remove(audio_path)
         else:
             if len(model_res) <= 2000:
                 # If within limit, send the content as a single message
@@ -293,7 +252,155 @@ async def on_message(message):
                 for chunk in chunks:
                     await message.channel.send(chunk)
             # await message.reply(model_res)
-            update_text_time(user['last_message_time'], text_start_time, user_id, text_end_time)
-        
+
+    else:
+        # Get response
+        if local_llm:
+            # model_res = "local_llm"
+            model_res = await send_message_llm(message)
+            # save_message_llm_to_db(user_id, user_text, model_res)
+        else:
+            model_res = get_chain_response(user_id, user_text, user_name)
+            # model_res = "testing on message"
+        # Save message to database
+            save_message_to_db(user_id, user_text, model_res)
+
+        if voice_response:
+            # Convert response to audio
+            if len(model_res) - model_res.count(" ") <= allowed_characters:
+                audio_path, _ = get_audio(user_id, model_res)
+                audio_file = discord.File(audio_path)
+                await message.reply(file=audio_file)
+                os.remove(audio_path)
+            if len(model_res) <= 2000:
+                # If within limit, send the content as a single message
+                await message.reply(model_res)
+            else:
+                # If content is too long, split it into multiple messages
+                chunks = [model_res[i:i + 2000] for i in range(0, len(model_res), 2000)]
+                for chunk in chunks:
+                    await message.channel.send(chunk)
+        else:
+            if len(model_res) <= 2000:
+                # If within limit, send the content as a single message
+                await message.reply(model_res)
+            else:
+                # If content is too long, split it into multiple messages
+                chunks = [model_res[i:i + 2000] for i in range(0, len(model_res), 2000)]
+                for chunk in chunks:
+                    await message.channel.send(chunk)
+            # await message.reply(model_res)
+
+# async def on_message(message):
+#     if message.author.bot or not isinstance(message.channel, discord.DMChannel):
+#         return
+
+#     user_id = str(message.author.id)
+#     user_name = message.author.display_name
+
+#     found, user = get_user(user_id)
+    
+#     if not found or not user['payment_status']:
+#         await handle_new_or_unpaid_user(message, user_id)
+#         return
+
+#     if not is_subscription_active(user['last_subscription_time']):
+#         view, embed_repay = create_payment_embed()
+#         await message.reply(embed=embed_repay, view=view)
+#         return
+
+#     await handle_existing_user(message, user_id, user_name, user)
+
+# async def handle_new_or_unpaid_user(message, user_id):
+#     found_free, user_free = get_user_free(user_id)
+#     if found_free and user_free['left'] >= 0:
+#         update_user_free(user_id, user_free['left'] - 1)
+#         await free_response(message)
+#     else:
+#         view, embed = create_payment_embed()
+#         await message.reply(embed=embed, view=view)
+
+# def create_payment_embed():
+#     view = View()
+#     payment_links = {
+#         "🌸 $15": "https://buy.stripe.com/eVa5lj1kH6LcgDK8wD",
+#         "🔥 $50": "https://buy.stripe.com/00gcNL6F17Pg3QYaEM",
+#         "⭐ $100": "https://buy.stripe.com/7sI1530gDglMfzGdQZ"
+#     }
+#     for amount, link in payment_links.items():
+#         button = Button(style=discord.ButtonStyle.green, label=amount, url=link)
+#         view.add_item(button)
+
+#     embed = welcome_embed()
+#     embed_repay = balance_embed()
+
+#     return view, embed_repay
+
+# async def handle_existing_user(message, user_id, user_name, user):
+#     create_or_update_user_extra(user_id)
+    
+#     local_llm, voice_response = get_user_preferences(user_id, user_name)
+#     allowed_characters = get_allowed_characters(user['subscription_payment'])
+
+#     user_text = message.content
+
+#     if message.attachments:
+#         attachment = message.attachments[0]
+#         if attachment.filename.endswith(".ogg"):
+#             await handle_voice_message(message, user_id, user_text, allowed_characters, local_llm, voice_response)
+#     else:
+#         await handle_text_message(message, user_id, user_text, allowed_characters, local_llm, voice_response)
+
+# def get_user_preferences(user_id, user_name):
+#     found, user_preference = get_preferences(user_id)
+#     if not found:
+#         save_preferences_to_db(user_id, user_name, False)
+#         return False, False
+
+#     return user_preference['local_llm'], user_preference['voice']
+
+# def get_allowed_characters(payment_tier):
+#     if payment_tier == 15:
+#         return 12495
+#     elif payment_tier == 50:
+#         return 24990
+#     elif payment_tier == 100:
+#         return 49980
+#     return 0
+
+# async def handle_voice_message(message, user_id, user_text, allowed_characters, local_llm, voice_response):
+#     await attachment.save(f"{user_id}.ogg")
+#     transcription = oga_2_mp3_2_text(user_id)
+
+#     response = await get_response(user_id, transcription, user_text, local_llm)
+
+#     await send_response(message, response, allowed_characters, voice_response)
+
+# async def handle_text_message(message, user_id, user_text, allowed_characters, local_llm, voice_response):
+#     response = await get_response(user_id, user_text, user_text, local_llm)
+
+#     await send_response(message, response, allowed_characters, voice_response)
+
+# async def get_response(user_id, text, user_text, local_llm):
+#     if local_llm:
+#         return await send_message_llm(text)
+#     else:
+#         model_res = get_chain_response(user_id, text, user_text)
+#         save_message_to_db(user_id, text, model_res)
+#         return model_res
+
+# async def send_response(message, response, allowed_characters, voice_response):
+#     if voice_response and len(response) - response.count(" ") <= allowed_characters:
+#         audio_path, _ = get_audio(message.author.id, response)
+#         audio_file = discord.File(audio_path)
+#         await message.reply(file=audio_file)
+#         os.remove(audio_path)
+
+#     if len(response) <= 2000:
+#         await message.reply(response)
+#     else:
+#         chunks = [response[i:i + 2000] for i in range(0, len(response), 2000)]
+#         for chunk in chunks:
+#             await message.channel.send(chunk)
 
 bot.run(TOKEN)

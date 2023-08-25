@@ -2,9 +2,6 @@ import discord
 def welcome_embed():
     embed = discord.Embed(title="Welcome to VoiceBot",
                         description="Here are some commands you should know about:", )
-
-    embed.add_field(name="/balance",
-                    value="to check the remaining amount in your account.", inline=False)
     embed.add_field(name="/clear",
                     value="to delete all previous conversation.", inline=False)
     embed.add_field(name="/help",
@@ -12,19 +9,13 @@ def welcome_embed():
     embed.add_field(name="To continue, Please make a payment",
                     value=".....", inline=False)
     embed.add_field(name="🌸 Mini",
-                    value="5 minutes of \naudio responses for \n**$5**",
-                    inline=True)
-    embed.add_field(name="🔥 Spark",
-                    value="10 minutes of \naudio responses for \n**$10**",
-                    inline=True)
-    embed.add_field(name="❤️ Classic",
                     value="15 minutes of \naudio responses for \n**$15**",
                     inline=True)
-    embed.add_field(name="💎 Pro",
-                    value="25 minutes of \naudio responses for \n**$25**",
+    embed.add_field(name="❤️ Spark",
+                    value="30 minutes of \naudio responses for \n**$50**",
                     inline=True)
     embed.add_field(name="⭐ Ultimate",
-                    value="Custom minutes of \naudio responses for \n**<$50**",
+                    value="60 minutes of \naudio responses for \n**<$100**",
                     inline=True)
     embed.set_footer(text="For any questions, suggestions or reports, feel free to contact us at: astralabsai@protonmail.com")
     return embed
@@ -32,19 +23,13 @@ def balance_embed():
     embed_repay = discord.Embed(title="Your balance is **0$**",
                         description="To continue, Please make a payment", )
     embed_repay.add_field(name="🌸 Mini",
-                    value="5 minutes of \naudio responses for \n**$5**",
-                    inline=True)
-    embed_repay.add_field(name="🔥 Spark",
-                    value="10 minutes of \naudio responses for \n**$10**",
-                    inline=True)
-    embed_repay.add_field(name="❤️ Classic",
                     value="15 minutes of \naudio responses for \n**$15**",
                     inline=True)
-    embed_repay.add_field(name="💎 Pro",
-                    value="25 minutes of \naudio responses for \n**$25**",
+    embed_repay.add_field(name="❤️ Spark",
+                    value="30 minutes of \naudio responses for \n**$50**",
                     inline=True)
     embed_repay.add_field(name="⭐ Ultimate",
-                    value="Custom minutes of \naudio responses for \n**<$50**",
+                    value="60 minutes of \naudio responses for \n**<$100**",
                     inline=True)
     embed_repay.set_footer(text="For any questions, suggestions or reports, feel free to contact us at: astralabsai@protonmail.com")
     return embed_repay
@@ -56,9 +41,6 @@ def help_embed():
     # Add fields to the embed_help
     embed_help.add_field(name="/help",
                     value="Well, you just used it! This command shows you a list of available commands and how to use them.",
-                    inline=False)
-    embed_help.add_field(name="/balance",
-                    value="Use this command to check the current balance in your account. Don't forget to keep an eye on it to ensure we can keep chatting without any interruptions.",
                     inline=False)
     embed_help.add_field(name="/clear",
                     value="Feeling like starting fresh? This command clears the chat history with me.",
