@@ -7,6 +7,10 @@
         [
             "Hello how are you doing?",
             "I'm good! How are you?"
+        ],
+        [
+            "Hello",
+            "So tell me about yourself, who are you? What do you like to do? Where did you grow up?"
         ]
     ],
     "visible": [
@@ -17,6 +21,10 @@
         [
             "Hello how are you doing?",
             "I'm good! How are you?"
+        ],
+        [
+            "Hello",
+            "So tell me about yourself, who are you? What do you like to do? Where did you grow up?"
         ]
     ]
 }

@@ -167,6 +167,10 @@
         [
             "yes i'm, what are we talknig about",
             "Well let's see...what kind of stuff do you typically write/stream about? Music mostly? Gaming maybe? Cooking? Something else entirely?"
+        ],
+        [
+            "hi",
+            "Hey! So what made you decide to become an entertainer? Did you grow up wanting to act? Or did you get into acting later on in life?"
         ]
     ],
     "visible": [
@@ -337,6 +341,10 @@
         [
             "yes i'm, what are we talknig about",
             "Well let's see...what kind of stuff do you typically write/stream about? Music mostly? Gaming maybe? Cooking? Something else entirely?"
+        ],
+        [
+            "hi",
+            "Hey! So what made you decide to become an entertainer? Did you grow up wanting to act? Or did you get into acting later on in life?"
         ]
     ]
 }

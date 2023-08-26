@@ -18,7 +18,9 @@ from text_to_speech import get_audio
 from transcribe_audio import oga_2_mp3_2_text
 from util import is_subscription_active 
 from helpers import check_if_user_exists, create_cache_history, add_user_to_user_json, get_conversation_history, delete_cache_history, delete_last_message_cache_history
-from database import save_message_to_db, connect_to_db, create_user, get_user, update_user, update_user_time, delete_message_history, save_preferences_to_db, get_preferences, change_preferences, save_message_llm_to_db, change_voice, update_user_time, create_user_free, get_user_free, update_user_free, create_or_update_user_extra, get_user_extras
+from database import (save_message_to_db, connect_to_db, create_user, get_user, update_user, update_user_time, delete_message_history, save_preferences_to_db, 
+                      get_preferences, change_preferences, save_message_llm_to_db, change_voice, update_user_time, create_user_free, get_user_free, update_user_free, 
+                      create_or_update_user_extra, get_user_extras, create_or_update_user_tokens, get_user_tokens)
 TOKEN = os.environ.get('TOKEN')
 
 intents = discord.Intents.all()
@@ -136,6 +138,7 @@ async def regenerate(ctx: discord.Interaction):
 @bot.tree.command(name='clear', description='Feeling like starting fresh? This command clears the chat history with me.')
 async def clear_history_command(ctx: discord.Interaction):
    delete_cache_history(str(ctx.user.mention).replace('<@', '').replace('>', ''))
+   user_id = str(ctx.user.mention).replace("<@", "").replace(">", "")
    delete_message_history(user_id)
    return await ctx.response.send_message("history cleared")
     
@@ -157,9 +160,7 @@ async def on_message(message):
     user_id = str(message.author.id)
     user_name = message.author.display_name
     print(f"User ID: {user_id}",message)
-
-    
-        
+    # Check if the user is in the database
     found, user = get_user(user_id)
     embed = welcome_embed()
     embed_repay = balance_embed()
@@ -208,6 +209,14 @@ async def on_message(message):
         allowed_characters = 24990
     elif payment_tier == 100:
         allowed_characters = 49980
+
+    found, remaining_tokens = get_user_tokens(user_id)
+    if found:
+        print("Allowed Characters: ", allowed_characters, "Remaining Tokens: ", remaining_tokens)
+        allowed_characters = allowed_characters - remaining_tokens['remaining_tokens'] 
+    else:
+        create_or_update_user_tokens(user_id, allowed_characters)
+
     if message.attachments:
         attachment = message.attachments[0]
         if attachment.filename.endswith(".ogg"):
@@ -234,6 +243,8 @@ async def on_message(message):
                     audio_file = discord.File(audio_path)
                     await message.reply(file=audio_file)
                     os.remove(audio_path)
+                    create_or_update_user_tokens(user_id, allowed_characters - (len(model_res) + model_res.count(" ")))
+                    return
                 if len(model_res) <= 2000:
                     # If within limit, send the content as a single message
                     await message.reply(model_res)
@@ -264,7 +275,7 @@ async def on_message(message):
             # model_res = "testing on message"
         # Save message to database
             save_message_to_db(user_id, user_text, model_res)
-
+        print("Model Response length: ", len(model_res) - model_res.count(" "))
         if voice_response:
             # Convert response to audio
             if len(model_res) - model_res.count(" ") <= allowed_characters:
@@ -272,6 +283,8 @@ async def on_message(message):
                 audio_file = discord.File(audio_path)
                 await message.reply(file=audio_file)
                 os.remove(audio_path)
+                create_or_update_user_tokens(user_id, allowed_characters - (len(model_res) + model_res.count(" ")))
+                return 
             if len(model_res) <= 2000:
                 # If within limit, send the content as a single message
                 await message.reply(model_res)

@@ -34,6 +34,31 @@ def connect_to_db_extras():
     user_extras = db["extras"]
     return user_extras
     
+def connect_to_db_tokens():
+    # client = MongoClient("mongodb+srv://shaheerahmad:0j3mNEwj2GeuOK2D@sgm.kze22.mongodb.net/test")
+    client = MongoClient(MongoURL)
+    db = client['bot2']
+    user_details = db["user_details"]
+    return user_details
+    
+def create_or_update_user_tokens(user_id, remaining_tokens):
+    users = connect_to_db_tokens()
+    current_time = datetime.now()
+    # The upsert=True option creates a new document if no document matches the filter
+    users.update_one(
+        {'user_id': user_id},
+        {'$set': {'remaining_tokens': remaining_tokens}},
+        upsert=True
+    )
+
+def get_user_tokens(user_id):
+    users = connect_to_db_tokens()
+    found = users.find_one({'user_id': user_id})
+    if found:
+        return True, found
+    else:
+        return False , None
+
 def create_or_update_user_extra(user_id):
     users = connect_to_db_extras()
     current_time = datetime.now()
