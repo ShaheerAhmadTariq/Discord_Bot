@@ -1,0 +1,19 @@
+Google Is Testing a New AI Life Coach
+Google is using the power of AI to help you figure out your life. How soon before the machines replace human wisdom?Artificial intelligence is rapidly advancing, taking over tasks once solely performed by humans. The latest profession under threat? Therapists and life coaches. Google is currently testing a new AI assistant designed to provide users with personalized life advice on everything from career decisions to relationship troubles.
+
+Google’s Deep Mind has partnered with AI training company Scale AI to rigorously evaluate the new chatbot, according to a recent New York Times report. Over 100 experts with doctorate degrees across various fields have been enlisted to extensively test the assistant's capabilities. The evaluators immersed themselves in assessing the tool's ability to thoughtfully address deeply personal questions about users' real-life challenges.
+
+In one sample prompt, a user asked the AI for guidance on how to gracefully tell a close friend they can no longer afford to attend the friend's upcoming destination wedding. The assistant then provides tailored advice or recommendations based on the complex interpersonal situation described.
+
+Beyond just offering life advice, Google's AI tool aims to provide assistance across 21 different life skills that range from specialized medical fields to hobby suggestions. The planner function can even create customized financial budgets.
+However, Google's own AI safety specialists have raised concerns that over-reliance on an AI for major life decisions could potentially lead to diminished user well-being and agency. The company's launch of the AI chatbot Bard in March notably restricted its ability to provide medical, financial, or legal advice, focusing instead on offering mental health resources.
+
+The confidential testing is part of the standard process for developing safe and helpful AI technology, a Google DeepMind spokesperson told The New York Times. The spokesperson emphasized that isolated testing samples do not represent the product roadmap.
+Yet while Google errs on the side of caution, the public enthusiasm for ever-expanding AI capabilities emboldens developers. The runaway success of ChatGPT and other natural language processing tools demonstrates people's desire for AI life advice—even if current technology has limitations.
+
+Specialists have warned that AI chatbots lack the innate human ability to detect lies or interpret nuanced emotional cues, as Decrypt previously reported. But they also avoid common therapist pitfalls like bias or misdiagnosis. "We've seen that AI can work with certain populations," psychotherapist Robi Ludwig told CBS news in May. “We are complex, and AI doesn’t love you back, and we need to be loved for who we are and who we aren’t," she said.
+For isolated, vulnerable segments of the population, even an imperfect AI companion appears preferable to continued loneliness and lack of support. However, this itself seems a risky bet, one that has already taken a human life, according to the Belgium-based news outlet La Libre.
+
+As AI inexorably marches forward, difficult societal questions remain unanswered. How do we balance user autonomy and well-being? And how much personal data should big corporations like Google have about their users as the world balances the risk vs reward ratio of having cheap, instantly available assistants?
+
+For now, AI seems poised to augment, rather than replace, human-provided services. But the technology's eventual limits remain uncertain.
