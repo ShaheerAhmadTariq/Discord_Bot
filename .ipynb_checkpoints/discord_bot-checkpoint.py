@@ -158,7 +158,7 @@ async def on_message(message):
     view = View()
     # Define payment links for different amounts
     payment_links = {
-        "🌸 $5": "https://buy.stripe.com/4gw153gfB2uWevC3cc",
+        # "🌸 $5": "https://buy.stripe.com/4gw153gfB2uWevC3cc",
         # "🌸 $5": "https://buy.stripe.com/test_fZefZV8Z0cDLfMQcMO",
         "🔥 $10": "https://buy.stripe.com/9AQ6pn8N95H82MUeUV",
         "❤️ $15": "https://buy.stripe.com/aEU4hf5AXd9Acnu9AC",

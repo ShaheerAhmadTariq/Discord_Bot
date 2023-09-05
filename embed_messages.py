@@ -11,9 +11,9 @@ def welcome_embed():
                     value="to check the remaining amount in your account.", inline=False)
     embed.add_field(name="To continue, Please make a payment",
                     value=".....", inline=False)
-    embed.add_field(name="🌸 Mini",
-                    value="5 minutes of \naudio responses for \n**$5**",
-                    inline=True)
+    # embed.add_field(name="🌸 Mini",
+    #                 value="5 minutes of \naudio responses for \n**$5**",
+    #                 inline=True)
     embed.add_field(name="🔥 Spark",
                     value="10 minutes of \naudio responses for \n**$10**",
                     inline=True)
@@ -31,9 +31,9 @@ def welcome_embed():
 def balance_embed():
     embed_repay = discord.Embed(title="Your balance is **0$**",
                         description="To continue, Please make a payment", )
-    embed_repay.add_field(name="🌸 Mini",
-                    value="5 minutes of \naudio responses for \n**$5**",
-                    inline=True)
+    # embed_repay.add_field(name="🌸 Mini",
+    #                 value="5 minutes of \naudio responses for \n**$5**",
+    #                 inline=True)
     embed_repay.add_field(name="🔥 Spark",
                     value="10 minutes of \naudio responses for \n**$10**",
                     inline=True)

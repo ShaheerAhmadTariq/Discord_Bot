@@ -87,7 +87,7 @@ def return_context(query):
 
 def get_chain_response(user_id, user_text, user_name):
       context = return_context(user_text)
-      query = "Use this context: \n" + context + "( if it is related)to answer this " + user_text
+      query = "Use this context: \n" + context + "( if it is related)to answer this, and don't mention that you are using any context. " + user_text
       conv_chain = chain_setup(user_id=user_id, user_name=user_name)
       out = conv_chain(query)
       print(out['history'])
