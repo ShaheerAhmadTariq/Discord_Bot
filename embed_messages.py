@@ -69,9 +69,9 @@ def help_embed():
     embed_help.add_field(name="/mode",
                     value="You have the power to choose the format you want the response in! Use this command to switch between 'Voice mode' and 'Text mode' for response.",
                     inline=False)
-    embed_help.add_field(name="/regenerate",
-                    value="Delete the last response and message from history, So you can rewrite the query and i can generate fresh response.",
-                    inline=False)
+    # embed_help.add_field(name="/regenerate",
+    #                 value="Delete the last response and message from history, So you can rewrite the query and i can generate fresh response.",
+    #                 inline=False)
     # Add a blank field to create space
     embed_help.add_field(name="\u200b", value="\u200b", inline=False)
     # Add a footer for contact information

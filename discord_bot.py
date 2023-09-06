@@ -115,23 +115,20 @@ async def help(ctx: discord.Interaction):
     return await ctx.response.send_message(embed=embed_help)
 
 
-@bot.tree.command(name="regenerate", description="Delete the last response.")
-async def regenerate(ctx: discord.Interaction):
-    # await ctx.response.defer()  # Immediately acknowledge the interaction
-    # await ctx.response.send_message("Bot is working")
-    user_id = str(ctx.user.mention).replace("<@", "").replace(">", "")
-    user_found, user = get_user(user_id)
-    if user_found:
-        # response = await regenerate_message_llm(user_id, user)
-        delete_last_message_cache_history(user_id)
-        return await ctx.response.send_message("Last message is delete")  # Send the actual response
-    else:
-        return await ctx.response.send_message("User Not Found!")
+# @bot.tree.command(name="regenerate", description="Delete the last response.")
+# async def regenerate(ctx: discord.Interaction):
+#     # await ctx.response.defer()  # Immediately acknowledge the interaction
+#     # await ctx.response.send_message("Bot is working")
+#     user_id = str(ctx.user.mention).replace("<@", "").replace(">", "")
+#     user_found, user = get_user(user_id)
+#     if user_found:
+#         # response = await regenerate_message_llm(user_id, user)
+#         delete_last_message_cache_history(user_id)
+#         return await ctx.response.send_message("Last message is delete")  # Send the actual response
+#     else:
+#         return await ctx.response.send_message("User Not Found!")
     
-# @bot.tree.command(name='history', description='Prints the history of the character.')
-# async def print_history(ctx: discord.Interaction):
-#     user_id = str(ctx.user.mention).replace('<@', '').replace('>', '')
-#     return await ctx.response.send_message(get_conversation_history(user_id))
+
 
 @bot.tree.command(name='clear', description='Feeling like starting fresh? This command clears the chat history with me.')
 async def clear_history_command(ctx: discord.Interaction):
