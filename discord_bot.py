@@ -135,7 +135,8 @@ async def regenerate(ctx: discord.Interaction):
 
 @bot.tree.command(name='clear', description='Feeling like starting fresh? This command clears the chat history with me.')
 async def clear_history_command(ctx: discord.Interaction):
-   delete_cache_history(str(ctx.user.mention).replace('<@', '').replace('>', ''))
+   user_id = str(ctx.user.mention).replace('<@', '').replace('>', '')
+   delete_cache_history(user_id)
    delete_message_history(user_id)
    return await ctx.response.send_message("history cleared")
     
