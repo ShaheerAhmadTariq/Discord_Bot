@@ -1,21 +1,31 @@
-# text-generation-webui documentation
+## Bot setup guide
+# Download Miniconda
+mkdir -p ./miniconda3
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ./miniconda3/miniconda.sh
+bash ./miniconda3/miniconda.sh -b -u -p ./miniconda3
+rm -rf /miniconda3/miniconda.sh
+./miniconda3/bin/conda init bash
+# close the terminal and open a new one
 
-## Table of contents
 
-* [Audio Notification](Audio-Notification.md)
-* [Chat mode](Chat-mode.md)
-* [DeepSpeed](DeepSpeed.md)
-* [Docker](Docker.md)
-* [ExLlama](ExLlama.md)
-* [Extensions](Extensions.md)
-* [GPTQ models (4 bit mode)](GPTQ-models-(4-bit-mode).md)
-* [LLaMA model](LLaMA-model.md)
-* [llama.cpp](llama.cpp.md)
-* [LoRA](LoRA.md)
-* [Low VRAM guide](Low-VRAM-guide.md)
-* [RWKV model](RWKV-model.md)
-* [Spell book](Spell-book.md)
-* [System requirements](System-requirements.md)
-* [Training LoRAs](Training-LoRAs.md)
-* [Windows installation guide](Windows-installation-guide.md)
-* [WSL installation guide](WSL-installation-guide.md)
+# Create a new Conda environment 
+conda create -n textgen python=3.10.9
+conda activate textgen
+
+
+# Upload bot zip file
+apt update
+apt install unzip 
+unzip Discord_Bot-staging.zip
+cd Discord_Bot-staging
+pip install -r requirements.txt
+
+# Starting Pygmalion
+source miniconda3/bin/activate
+conda activate textgen
+./start.bash
+
+# open a new terminal 
+source miniconda3/bin/activate
+conda activate textgen
+./startbot.bash
