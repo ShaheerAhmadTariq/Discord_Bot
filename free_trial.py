@@ -1,9 +1,11 @@
 import os
 import time
 import discord
+import aiohttp
 from discord.ext import commands
 from discord import app_commands
 from discord.ui import Button, View
+from datetime import datetime
 from local_llm import generate_response, regenerate_message_llm
 from embed_messages import welcome_embed
 from chain import chain_setup, get_chain_response
@@ -14,9 +16,35 @@ from util import update_time, update_text_time
 from helpers import check_if_user_exists, create_cache_history, add_user_to_user_json, get_conversation_history, delete_cache_history, delete_last_message_cache_history
 from database import save_message_to_db, connect_to_db, create_user, get_user, update_user, update_user_time, delete_message_history, save_preferences_to_db, get_preferences, change_preferences, save_message_llm_to_db, change_voice, update_user_time, create_user_free, get_user_free, update_user_free
 
+def print_current_time(str_to_print):
+    current_time = datetime.now().time()
+    formatted_time = current_time.strftime("%H:%M:%S")
+    print(f"\n *****************************************************\n{str_to_print} is {formatted_time}")
+async def fetch_post(session, url, json_data):
+    async with session.post(url, json=json_data) as response:
+        return await response.text()
 async def send_message_llm(user):
-    response = await generate_response(user)
-    return response
+    async with aiohttp.ClientSession() as session:
+            url = 'http://127.0.0.1:8000/generate_response_llm'
+            user_id = str(user.author.id)
+            user_name = user.author.display_name
+            message_content = {"message": user.content, "user_id": user_id, "user_name": user_name}
+            model_res = await fetch_post(session, url, message_content)
+    current_time = datetime.now().time()
+    formatted_time = current_time.strftime("%H:%M:%S")
+    print(f"\n *****************************************************\nThe Local LLM current time is {formatted_time}")
+    return model_res
+async def send_message_chatgpt(user):
+    async with aiohttp.ClientSession() as session:
+            url = 'http://127.0.0.1:8000/generate_response_chatgpt'
+            user_id = str(user.author.id)
+            user_name = user.author.display_name
+            message_content = {"message": user.content, "user_id": user_id, "user_name": user_name}
+            model_res = await fetch_post(session, url, message_content)
+    current_time = datetime.now().time()
+    formatted_time = current_time.strftime("%H:%M:%S")
+    print(f"\n *****************************************************\nThe ChatGPT current time is {formatted_time}")
+    return model_res 
 async def free_response(message):
     user_id = str(message.author.id)
     user_name = message.author.display_name
@@ -44,7 +72,7 @@ async def free_response(message):
                 model_res = await send_message_llm(message)
                 # save_message_llm_to_db(user_id, user_text, model_res)
             else:
-                model_res = get_chain_response(user_id, transcription, user_name)
+                model_res = await send_message_chatgpt(message)
                 # Save message to database
                 save_message_to_db(user_id, transcription, model_res)
             text_end_time = time.time()
@@ -79,10 +107,13 @@ async def free_response(message):
         text_start_time = time.time()
         if local_llm:
             # model_res = "local_llm"
+            print_current_time("Local LLM start time")
             model_res = await send_message_llm(message)
             # save_message_llm_to_db(user_id, user_text, model_res)
         else:
-            model_res = get_chain_response(user_id, user_text, user_name)
+            print_current_time("ChatGPT start time")
+            # model_res = get_chain_response(user_id, user_text, user_name)
+            model_res = await send_message_chatgpt(message)
             # model_res = "testing on message"
         # Save message to database
             save_message_to_db(user_id, user_text, model_res)
