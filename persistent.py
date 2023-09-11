@@ -36,7 +36,7 @@ class ChromaHandler:
         # collection = self.client.get_or_create_collection(str(user_id))
         collection.add(ids=ids, documents=documents, metadatas=metadatas)
         
-    def get_or_query_collection(self, user_id: str, query_texts: str, n_results: int):
+    async def get_or_query_collection(self, user_id: str, query_texts: str, n_results: int):
         """Get or create and query a collection for a given user_id."""
         print("get or query collection")
         if not self.collection_exists(user_id):
@@ -73,7 +73,7 @@ class ChromaHandler:
         collection = self.client.get_or_create_collection(user_id)
         collection.delete(ids=ids)
 
-    def read_user_file(self, user_id: str) -> list:
+    async def read_user_file(self, user_id: str) -> list:
         """Read a user's JSON file and return the 'internal' data."""
         with open(f"./history_cache/history_{user_id}.json", 'r') as file:
             data = json.load(file)

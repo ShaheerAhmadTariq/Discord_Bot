@@ -1,6 +1,7 @@
 import os
 import time
 import discord
+import aiohttp
 import random
 from discord.ext import commands, tasks 
 from datetime import datetime, timedelta
@@ -12,7 +13,6 @@ from embed_messages import welcome_embed
 from chain import chain_setup, get_chain_response
 # from chain_ import get_chain_response
 # from doc_memory_chain import chain_setup, get_chain_response
-
 from embed_messages import welcome_embed, help_embed, balance_embed
 from text_to_speech import get_audio
 from transcribe_audio import oga_2_mp3_2_text
@@ -28,17 +28,35 @@ intents.members = True
 intents.message_content = True
 bot = commands.Bot(command_prefix='/', intents=intents)
 
+def print_current_time(str_to_print):
+    current_time = datetime.now().time()
+    formatted_time = current_time.strftime("%H:%M:%S")
+    print(f"\n *****************************************************\n{str_to_print} is {formatted_time}")
+async def fetch_post(session, url, json_data):
+    async with session.post(url, json=json_data) as response:
+        return await response.text()
 async def send_message_llm(user):
-    # if check_if_user_exists(user.author.id):
-    #     print(f"{user.author.id} send message")
-    response = await generate_response(user)
-    return response
-    # else:
-    #     print(f"{user.author.id} send message for first time")
-    #     create_cache_history(user.author.id)
-    #     add_user_to_user_json(user.author.id)
-    #     # return await ctx.response.send_message("You have already set your character", ephemeral=True)
-    #     return "welcome_embed"
+    async with aiohttp.ClientSession() as session:
+            url = 'http://127.0.0.1:8000/generate_response_llm'
+            user_id = str(user.author.id)
+            user_name = user.author.display_name
+            message_content = {"message": user.content, "user_id": user_id, "user_name": user_name}
+            model_res = await fetch_post(session, url, message_content)
+    current_time = datetime.now().time()
+    formatted_time = current_time.strftime("%H:%M:%S")
+    print(f"\n *****************************************************\nThe Local LLM current time is {formatted_time}")
+    return model_res
+async def send_message_chatgpt(user):
+    async with aiohttp.ClientSession() as session:
+            url = 'http://127.0.0.1:8000/generate_response_chatgpt'
+            user_id = str(user.author.id)
+            user_name = user.author.display_name
+            message_content = {"message": user.content, "user_id": user_id, "user_name": user_name}
+            model_res = await fetch_post(session, url, message_content)
+    current_time = datetime.now().time()
+    formatted_time = current_time.strftime("%H:%M:%S")
+    print(f"\n *****************************************************\nThe ChatGPT current time is {formatted_time}")
+    return model_res  
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user.name} ({bot.user.id})')
@@ -70,20 +88,6 @@ async def check_inactive_users():
             else:
                 print(f"User {user_details['user_id']} not found!")
 
-# @bot.tree.command(name='set', description='Sets the charcter you want /set (character)')
-# # @slash_option(name='message', description='Character from /list', required=True)
-# async def set_character(ctx: discord.Interaction, message: str):
-#     user_id = str(ctx.user.mention).replace('<@', '').replace('>', '')
-#     if check_if_user_exists(user_id):
-#         # return await ctx.response.send_message(embed=welcome_embed, ephemeral=True)
-#         return await ctx.response.send_message("already set embed")
-#     else:
-#         create_cache_history(user_id)
-#         add_user_to_user_json(user_id)
-#         # return await ctx.response.send_message("You have already set your character", ephemeral=True)
-#         return await ctx.response.send_message("welcome_embed")
-# @bot.tree.command(name='preference', description='Set your preference for the bot.\n press 1 for ChatGPT\n press 2 for Local LLM')
-# async def preference(ctx: discord.Interaction, preference: int):
 @bot.tree.command(name="preference")
 @app_commands.describe(preference = "Set your preference for the bot.\n press 1 for ChatGPT\n press 2 for Local LLM")
 async def preference(ctx:  discord.Interaction, preference: int):
@@ -113,21 +117,6 @@ async def mode(ctx:  discord.Interaction, mode: int):
 async def help(ctx: discord.Interaction):
     embed_help = help_embed()
     return await ctx.response.send_message(embed=embed_help)
-
-
-# @bot.tree.command(name="regenerate", description="Delete the last response.")
-# async def regenerate(ctx: discord.Interaction):
-#     # await ctx.response.defer()  # Immediately acknowledge the interaction
-#     # await ctx.response.send_message("Bot is working")
-#     user_id = str(ctx.user.mention).replace("<@", "").replace(">", "")
-#     user_found, user = get_user(user_id)
-#     if user_found:
-#         # response = await regenerate_message_llm(user_id, user)
-#         delete_last_message_cache_history(user_id)
-#         return await ctx.response.send_message("Last message is delete")  # Send the actual response
-#     else:
-#         return await ctx.response.send_message("User Not Found!")
-    
 
 
 @bot.tree.command(name='clear', description='Feeling like starting fresh? This command clears the chat history with me.')
@@ -264,10 +253,14 @@ async def on_message(message):
         text_start_time = time.time()
         if local_llm:
             # model_res = "local_llm"
+            print_current_time("Local LLM start time")
             model_res = await send_message_llm(message)
             # save_message_llm_to_db(user_id, user_text, model_res)
         else:
-            model_res = get_chain_response(user_id, user_text, user_name)
+            print_current_time("ChatGPT start time")
+            # model_res = get_chain_response(user_id, user_text, user_name)
+            model_res = await send_message_chatgpt(message)
+            print("\n\n ******************************\nModel res: ",model_res)
             # model_res = "testing on message"
         # Save message to database
             save_message_to_db(user_id, user_text, model_res)

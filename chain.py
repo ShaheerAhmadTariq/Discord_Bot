@@ -14,7 +14,7 @@ from embeddings import ChromaHandler
 load_dotenv()
 # openai.api_key = os.getenv("OPENAI_API_KEY")
 
-def chain_setup(user_id, user_name):
+async def chain_setup(user_id, user_name):
     # get history msg and add it to memmory
     memory = ConversationBufferMemory()
 
@@ -77,7 +77,7 @@ def chain_setup(user_id, user_name):
     
     return conversation
     
-def return_context(query):
+async def return_context(query):
     handler = ChromaHandler(path="./chroma_doc")
     results = handler.get_or_query_collection(doc_id="google",query_texts=query, n_results=5)
     context = ""
@@ -85,12 +85,12 @@ def return_context(query):
         context += row
     return context
 
-def get_chain_response(user_id, user_text, user_name):
-      context = return_context(user_text)
+async def get_chain_response(user_id, user_text, user_name):
+      context = await return_context(user_text)
       query = "Use this context: \n" + context + "( if it is related)to answer this, and don't mention that you are using any context. " + user_text
-      conv_chain = chain_setup(user_id=user_id, user_name=user_name)
+      conv_chain = await chain_setup(user_id=user_id, user_name=user_name)
       out = conv_chain(query)
-      print(out['history'])
+      # print(out['history'])
       return out['response']
 
  

@@ -30,14 +30,14 @@ def create_cache_history(user_id):
         json.dump(content, file, indent=4)
     print(f"created cache for {user_id}")
     return
-def get_cache_history(user_id):
+async def get_cache_history(user_id):
     cache_file_path = f"./history_cache/history_{user_id}.json"
     if not os.path.exists(cache_file_path):
         create_cache_history(user_id)
     with open(cache_file_path, 'r') as file:
         data = json.load(file)
     return data
-def update_cache_history(filename, content):
+async def update_cache_history(filename, content):
     with open(f"./history_cache/history_{filename}.json", 'w') as file:
         json.dump(content, file, indent=4)
 def delete_last_message_cache_history(filename):
