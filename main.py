@@ -20,15 +20,15 @@ class Message(BaseModel):
     user_name: str
 @app.post("/generate_response_llm")
 async def generate_response_llm(message: Message):
-    try:
+    # try:
         print("message: ", message)
         response = await generate_response(message.user_id, message.user_name, message.message)
         # response = "hello from local_llm"
         # await asyncio.sleep(10)
         return response
-    except Exception as e:
-        print("Error is", e)
-        return "error in backend"
+    # except Exception as e:
+    #     print("Error is", e)
+    #     return "error in backend"
 
 class MessageGPT(BaseModel):
     message: str

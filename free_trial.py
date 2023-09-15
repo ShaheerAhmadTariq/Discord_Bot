@@ -72,7 +72,7 @@ async def free_response(message):
                 model_res = await send_message_llm(message)
                 # save_message_llm_to_db(user_id, user_text, model_res)
             else:
-                model_res = await send_message_chatgpt(message)
+                model_res = get_chain_response(user_id, transcription, user_name)
                 # Save message to database
                 save_message_to_db(user_id, transcription, model_res)
             text_end_time = time.time()

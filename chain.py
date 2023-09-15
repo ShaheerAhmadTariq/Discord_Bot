@@ -45,7 +45,7 @@ async def chain_setup(user_id, user_name):
         print("No previous conversation history found for this user.")
 
 
-    chat = ChatOpenAI(temperature=0.5,
+    chat = ChatOpenAI(temperature=0.7,
                       openai_api_key=os.getenv("OPENAI_API_KEY"))
 
     
@@ -57,7 +57,7 @@ async def chain_setup(user_id, user_name):
     1/ your name is Adam, 35 years old, you work as an English professor
     2/ My name is """+ user_name +"""
     4/ don't be overly enthusiastic, don't be cringe; don't be overly negative, don't be too boring.
-
+    5/ don't be too repetitive, don't mention any context provided to you.
                                                                     
     Current conversation:
     {history}
@@ -85,12 +85,24 @@ async def return_context(query):
         context += row
     return context
 
+def parse_response(str_with_quotes):
+    # Remove all double quotations from the beginning
+    while str_with_quotes.startswith('"'):
+        str_with_quotes = str_with_quotes[1:]
+
+    # Remove all double quotations from the end
+    while str_with_quotes.endswith('"'):
+        str_with_quotes = str_with_quotes[:-1]
+
+    return str_with_quotes
+
+
 async def get_chain_response(user_id, user_text, user_name):
       context = await return_context(user_text)
-      query = "Use this context: \n" + context + "( if it is related)to answer this, and don't mention that you are using any context. " + user_text
+      query = "Use this context: \n" + context + "( if it is related) to answer this, and in your response don't mention that you are using any context. " + user_text
       conv_chain = await chain_setup(user_id=user_id, user_name=user_name)
       out = conv_chain(query)
       # print(out['history'])
-      return out['response']
+      return parse_response(out['response'])
 
  
