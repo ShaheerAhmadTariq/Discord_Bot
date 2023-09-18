@@ -1,0 +1,22 @@
+{
+  "name": "tele-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.5.0",
+    "child_process": "^1.0.2",
+    "dotenv": "^16.3.1",
+    "fluent-ffmpeg": "^2.1.2",
+    "node-telegram-bot-api": "^0.61.0",
+    "request": "^2.88.2",
+    "stream": "^0.0.2",
+    "wav": "^1.0.2"
+  }
+}

@@ -1,1 +1,3 @@
-*.txt
+*.wav
+/node_modules
+.env
