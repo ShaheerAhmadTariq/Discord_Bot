@@ -9,7 +9,7 @@ MONGODB_PASSWORD = os.environ.get('MONGODB_PASSWORD')
 MONGODB_DB_NAME = os.environ.get('MONGODB_DB_NAME')
 
 MongoURL = os.environ.get('MONGO')
-MongoDB_Name = 'test'
+MongoDB_Name = 'telegram_bot'
 def connect_to_db():
     client = MongoClient(MongoURL)
     # client = MongoClient(MongoURL)
