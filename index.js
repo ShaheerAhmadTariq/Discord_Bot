@@ -40,10 +40,10 @@ bot.onText(/\/clear/, async (message) => {
   // 'msg' is the received Message from Telegram
   // 'match' is the result of executing the regexp above on the text content
   // of the message
-  const { chatId } = userInfo(message);
+  const { userId, chatId } = userInfo(message);
 
   const description = `history removed`;
-  await sendClearCommandToApi(userId, username);
+  await sendClearCommandToApi(userId);
 
   bot.sendMessage(chatId, description);
 });
@@ -52,9 +52,9 @@ bot.onText(/\/balance/, async (message) => {
   // 'msg' is the received Message from Telegram
   // 'match' is the result of executing the regexp above on the text content
   // of the message
-  const { userId, username } = userInfo(message);
+  const { userId, chatId } = userInfo(message);
 
-  const balance = await sendBalanceCommandToApi(userId, username);
+  const balance = await sendBalanceCommandToApi(userId);
   const description = `Your current Balance is ${balance}`;
 
   bot.sendMessage(chatId, description);

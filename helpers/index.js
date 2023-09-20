@@ -37,7 +37,7 @@ function userInfo(message) {
   return { chatId, userId, username };
 }
 
-async function sendBalanceCommandToApi(userId, username) {
+async function sendBalanceCommandToApi(userId) {
   try {
     const response = await axios.post(`${process.env.BOT_API_URL}/balance`, {
       user_id: userId.toString(),
@@ -49,7 +49,7 @@ async function sendBalanceCommandToApi(userId, username) {
   // Use axios to send the audio data directly to your API
 }
 
-async function sendClearCommandToApi(userId, username) {
+async function sendClearCommandToApi(userId) {
   try {
     const response = await axios.post(`${process.env.BOT_API_URL}/clear`, {
       user_id: userId.toString(),
