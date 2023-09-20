@@ -39,10 +39,9 @@ function userInfo(message) {
 
 async function sendBalanceCommandToApi(userId, username) {
   try {
-    const response = await axios.post(
-      `${process.env.BOT_API_URL}/generate_response_llm_audio`,
-      { user_id: userId.toString(), user_name: username }
-    );
+    const response = await axios.post(`${process.env.BOT_API_URL}/balance`, {
+      user_id: userId.toString(),
+    });
     return response.data.message;
   } catch (err) {
     console.error("Error sending audio data to the API:", err);
@@ -52,10 +51,9 @@ async function sendBalanceCommandToApi(userId, username) {
 
 async function sendClearCommandToApi(userId, username) {
   try {
-    const response = await axios.post(
-      `${process.env.BOT_API_URL}/generate_response_llm_audio`,
-      { user_id: userId.toString(), user_name: username }
-    );
+    const response = await axios.post(`${process.env.BOT_API_URL}/clear`, {
+      user_id: userId.toString(),
+    });
     return response.data.message;
   } catch (err) {
     console.error("Error sending audio data to the API:", err);
