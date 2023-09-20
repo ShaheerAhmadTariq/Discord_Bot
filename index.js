@@ -8,9 +8,6 @@ const {
 } = require("./helpers");
 const telegramBot = require("node-telegram-bot-api");
 require("dotenv").config();
-const ffmpeg = require("fluent-ffmpeg");
-const axios = require("axios");
-const stream = require("stream");
 const fs = require("fs");
 
 const Token = process.env.TELEGRAM_TOKEN;
