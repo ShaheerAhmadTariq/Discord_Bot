@@ -30,7 +30,7 @@ async def generate_response_llm(message: Message):
         
         print("message: ", message)
         if g_response:
-            _, user = get_user(message.user_id)
+            found, user = get_user(message.user_id)
             voice_response = False
             if 'voice_response' in response:
                 voice_response = response['voice_response']
@@ -39,12 +39,14 @@ async def generate_response_llm(message: Message):
             response = await generate_response(message.user_id, message.user_name, message.message)
             text_end_time = time.time()
             if voice_response:
-                # audio_path, audio_duration = get_audio(message.user_id, response)
-                # update_time(user['last_message_time'], 0, message.user_id, audio_duration)
-                return {"message": "audio_outputs/1791878032/JenFoxxx.mp3", "is_audio": True}
+                audio_path, audio_duration = get_audio(message.user_id, response)
+                if found:
+                    update_time(user['last_message_time'], 0, message.user_id, audio_duration)
+                return {"message": audio_path, "is_audio": True}
             else:
                 length_of_message = len(response.split())
-                update_text_time(user['last_message_time'], text_start_time, message.user_id, text_end_time, True, length_of_message)
+                if found:
+                    update_text_time(user['last_message_time'], text_start_time, message.user_id, text_end_time, True, length_of_message)
                 return {"message": response, "is_audio": False}
         else:
             return {"message": response, "is_audio": False}    
@@ -64,7 +66,7 @@ async def generate_response_llm_audio(message: AudioMessage):
         g_response, response = check_user(user_id=message.user_id, user_name=message.user_name)
         print("message: ", response)
         if g_response:
-            _, user = get_user(message.user_id)
+            found, user = get_user(message.user_id)
             voice_response = False
             if 'voice_response' in response:
                 voice_response = response['voice_response']
@@ -77,11 +79,13 @@ async def generate_response_llm_audio(message: AudioMessage):
             text_end_time = time.time()
             if voice_response:
                 audio_path, audio_duration = get_audio(message.user_id, response)
-                update_time(user['last_message_time'], 0, message.user_id, audio_duration)
+                if found:
+                    update_time(user['last_message_time'], 0, message.user_id, audio_duration)
                 return {"message": audio_path, "is_audio": True}
             else:
                 length_of_message = len(response.split())
-                update_text_time(user['last_message_time'], text_start_time, message.user_id, text_end_time, True, length_of_message)
+                if found:
+                    update_text_time(user['last_message_time'], text_start_time, message.user_id, text_end_time, True, length_of_message)
                 return {"message": response, "is_audio": False}
         else:
             return {"message": response, "is_audio": False}    

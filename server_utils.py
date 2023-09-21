@@ -16,6 +16,7 @@ def check_user(user_id, user_name):
             print("Not found in Free Trial, adding 5 messages")
             create_user_free(user_id)
             update_user_free(user_id, 4)
+            save_preferences_to_db(user_id, user_name ,False)
             return True, {'message':""}
         # return await message.reply(embed=embed, view=view)
     else:
