@@ -9,6 +9,9 @@ const {
 const telegramBot = require("node-telegram-bot-api");
 require("dotenv").config();
 const fs = require("fs");
+const ffmpeg = require("fluent-ffmpeg");
+const stream = require("stream");
+const axios = require("axios");
 
 const Token = process.env.TELEGRAM_TOKEN;
 const bot = new telegramBot(Token, { polling: true });
@@ -39,10 +42,12 @@ bot.onText(/\/clear/, async (message) => {
   // of the message
   const { userId, chatId } = userInfo(message);
 
-  const description = `history removed`;
-  await sendClearCommandToApi(userId);
-
-  bot.sendMessage(chatId, description);
+  const response = await sendClearCommandToApi(userId);
+  if (response) {
+    bot.sendMessage(chatId, `History removed!`);
+  } else {
+    bot.sendMessage(chatId, `Something went wrong!`);
+  }
 });
 
 bot.onText(/\/balance/, async (message) => {
@@ -52,40 +57,76 @@ bot.onText(/\/balance/, async (message) => {
   const { userId, chatId } = userInfo(message);
 
   const balance = await sendBalanceCommandToApi(userId);
-  const description = `Your current Balance is ${balance}`;
+  const description = `Your current Balance is ${balance}$`;
 
   bot.sendMessage(chatId, description);
 });
 
 bot.on("voice", async (message) => {
   try {
-    console.log(message);
     const voiceId = message.voice.file_id;
     const { chatId, userId, username } = userInfo(message);
+    const oggAudioFile = await bot.getFile(voiceId);
+    const oggAudioUrl = `${process.env.TELEGRAM_API_LINK}${Token}/${oggAudioFile.file_path}`;
+    const wavFileName = `${username}${Date.now()}.wav`;
 
-    const oggAudioUrl = `${process.env.TELEGRAM_API_LINK}${Token}/${voiceId}`;
-    const oggFileName = `${username}${Date.now()}.ogg`;
-    fs.writeFileSync(`../${oggFileName}`, oggAudioUrl);
+    const oggAudioResponse = await axios.get(oggAudioUrl, {
+      responseType: "arraybuffer",
+    });
 
-    const response = await sendVoiceToApi(oggFileName, userId, username);
-    bot.sendMessage(chatId, response);
+    // Encode the OGG audio file as base64
+    const base64Data = Buffer.from(oggAudioResponse.data).toString("base64");
+    // Send the WAV audio data to your API endpoint
+    const { is_audio, reply } = await sendVoiceToApi(
+      base64Data,
+      userId,
+      username
+    );
+
+    // const { is_audio, reply } = await sendVoiceToApi(
+    //   wavAudioData,
+    //   userId,
+    //   username
+    // );
+    console.log(is_audio);
+    console.log(reply);
+    if (is_audio) {
+      const audio = fs.readFileSync(`../../Discord_Bot/${reply}`);
+      bot.sendAudio(chatId, audio);
+    } else {
+      bot.sendMessage(chatId, reply);
+    }
   } catch (err) {
     console.error(err.message);
   }
 });
 
 bot.on("text", async (message) => {
-  const { chatId, userId, username } = userInfo(message);
-  // Check if the message starts with the bot's prefix or is a slash command
-  if (message.text.startsWith("/")) {
-    console.log("worked");
-    return; // Ignore messages with commands
+  try {
+    const { chatId, userId, username } = userInfo(message);
+    // Check if the message starts with the bot's prefix or is a slash command
+    if (message.text.startsWith("/")) {
+      console.log("worked");
+      return; // Ignore messages with commands
+    }
+
+    const { is_audio, reply } = await sendTextToApi(
+      message.text,
+      userId,
+      username
+    );
+    if (is_audio) {
+      const audio = fs.readFileSync(`../../Discord_Bot/${reply}`);
+      bot.sendAudio(chatId, audio);
+    } else {
+      bot.sendMessage(chatId, reply);
+    }
+
+    // Your bot's logic for responding to regular messages goes here
+    // For example, you can reply with a message:
+
+    // Or perform any other actions based on the message content
+  } catch (err) {
+    console.error(err.message);
   }
-
-  const response = await sendTextToApi(message.text, userId, username);
-  bot.sendMessage(chatId, response);
-  // Your bot's logic for responding to regular messages goes here
-  // For example, you can reply with a message:
-
-  // Or perform any other actions based on the message content
 });

@@ -6,7 +6,9 @@ async function sendTextToApi(message, userId, username) {
       `${process.env.BOT_API_URL}/generate_response_llm`,
       { message: message, user_id: userId.toString(), user_name: username }
     );
-    return response.data.message;
+    const is_audio = response.data.is_audio;
+    const reply = response.data.message;
+    return { is_audio, reply };
   } catch (err) {
     console.error("Error sending audio data to the API:", err);
   }
@@ -23,7 +25,9 @@ async function sendVoiceToApi(filePath, userId, username) {
         user_name: username,
       }
     );
-    return response.data.message;
+    const is_audio = response.data.is_audio;
+    const reply = response.data.message;
+    return { is_audio, reply };
   } catch (err) {
     console.error("Error sending audio data to the API:", err);
   }
