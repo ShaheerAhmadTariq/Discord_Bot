@@ -34,7 +34,9 @@ async function sendVoiceToApi(filePath, userId, username) {
   // Use axios to send the audio data directly to your API
 }
 function userInfo(message) {
-  const username = message.from.username;
+  const username = message.from.username
+    ? message.from.username
+    : message.from.id;
   const userId = message.from.id;
   const chatId = message.chat.id;
 
@@ -65,10 +67,42 @@ async function sendClearCommandToApi(userId) {
   // Use axios to send the audio data directly to your API
 }
 
+async function sendTextCommandToApi(userId) {
+  try {
+    const response = await axios.post(
+      `${process.env.BOT_API_URL}/preference_text`,
+      {
+        user_id: userId.toString(),
+      }
+    );
+    return response.data.message;
+  } catch (err) {
+    console.error("Error sending audio data to the API:", err);
+  }
+  // Use axios to send the audio data directly to your API
+}
+
+async function sendAudioCommandToApi(userId) {
+  try {
+    const response = await axios.post(
+      `${process.env.BOT_API_URL}/preference_audio`,
+      {
+        user_id: userId.toString(),
+      }
+    );
+    return response.data.message;
+  } catch (err) {
+    console.error("Error sending audio data to the API:", err);
+  }
+  // Use axios to send the audio data directly to your API
+}
+
 module.exports = {
   sendTextToApi,
   sendVoiceToApi,
   userInfo,
   sendClearCommandToApi,
   sendBalanceCommandToApi,
+  sendTextCommandToApi,
+  sendAudioCommandToApi,
 };

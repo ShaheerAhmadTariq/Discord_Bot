@@ -5,6 +5,8 @@ const {
   userInfo,
   sendBalanceCommandToApi,
   sendClearCommandToApi,
+  sendTextCommandToApi,
+  sendAudioCommandToApi,
 } = require("./helpers");
 const telegramBot = require("node-telegram-bot-api");
 require("dotenv").config();
@@ -27,6 +29,32 @@ bot.onText(/\/guide/, (message) => {
   // send back the matched "whatever" to the chat
   console.log(message.from.id);
   bot.sendMessage(chatId, botDescription, { parse_mode: "Markdown" });
+});
+
+bot.onText(/\/text/, async (message) => {
+  // 'msg' is the received Message from Telegram
+  // 'match' is the result of executing the regexp above on the text content
+  // of the message
+
+  const { chatId, userId } = userInfo(message);
+  // send back the matched "whatever" to the chat
+  await sendTextCommandToApi(userId);
+  bot.sendMessage(chatId, "You will receive text messages onwards.", {
+    parse_mode: "Markdown",
+  });
+});
+
+bot.onText(/\/audio/, async (message) => {
+  // 'msg' is the received Message from Telegram
+  // 'match' is the result of executing the regexp above on the text content
+  // of the message
+
+  const { chatId, userId } = userInfo(message);
+  // send back the matched "whatever" to the chat
+  await sendAudioCommandToApi(userId);
+  bot.sendMessage(chatId, "You will receive audio messages onwards.", {
+    parse_mode: "Markdown",
+  });
 });
 
 bot.onText(/\/deposit/, (message) => {
@@ -91,8 +119,16 @@ bot.on("voice", async (message) => {
     console.log(is_audio);
     console.log(reply);
     if (is_audio) {
-      const audio = fs.readFileSync(`../../Discord_Bot/${reply}`);
+      const path = `../../Discord_Bot-dev-server/${reply}`;
+      const audio = fs.readFileSync(path);
       bot.sendAudio(chatId, audio);
+      fs.unlink(path, (err) => {
+        if (err) {
+          console.error(`Error deleting file: ${err}`);
+        } else {
+          console.log(`File ${reply} has been deleted successfully.`);
+        }
+      });
     } else {
       bot.sendMessage(chatId, reply);
     }
@@ -116,8 +152,16 @@ bot.on("text", async (message) => {
       username
     );
     if (is_audio) {
-      const audio = fs.readFileSync(`../../Discord_Bot/${reply}`);
+      const path = `../../Discord_Bot-dev-server/${reply}`;
+      const audio = fs.readFileSync(path);
       bot.sendAudio(chatId, audio);
+      fs.unlink(path, (err) => {
+        if (err) {
+          console.error(`Error deleting file: ${err}`);
+        } else {
+          console.log(`File ${reply} has been deleted successfully.`);
+        }
+      });
     } else {
       bot.sendMessage(chatId, reply);
     }
