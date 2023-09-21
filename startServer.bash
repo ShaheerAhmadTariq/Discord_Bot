@@ -6,4 +6,4 @@ export MONGODB_USERNAME=djdfnfjfkdbrb
 export MONGODB_PASSWORD=qp4XTKeanMBCgJZW
 export MONGODB_DB_NAME=MofaSays
 export MONGO="mongodb+srv://azeem:azeem@cluster0.fcusdwv.mongodb.net/?retryWrites=true&w=majority"
-python -m uvicorn main:app --reload
+python -m uvicorn main:app 

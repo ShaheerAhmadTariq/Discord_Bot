@@ -7,7 +7,7 @@ from local_llm import generate_response
 from transcribe_audio import oga_2_mp3_2_text, speech_to_text, base64_to_audio
 from server_utils import check_user
 from helpers import delete_cache_history
-from database import get_user
+from database import get_user, change_voice
 from text_to_speech import get_audio
 from util import update_time, update_text_time
 app = FastAPI()
@@ -111,4 +111,19 @@ async def balance(user: BalanceMessage):
     else:
         message_str = "0"
         return {"message": message_str}
-    
+
+class Preferencetext(BaseModel):
+    user_id: str
+@app.post("/preference_text")
+async def preference_text(user: Preferencetext):
+    user_id = user.user_id
+    change_voice(user_id, False)
+    return {"message": True}
+
+class Preferenceaudio(BaseModel):
+    user_id: str
+@app.post("/preference_audio")
+async def preference_text(user: Preferenceaudio):
+    user_id = user.user_id
+    change_voice(user_id, True)
+    return {"message": True}
