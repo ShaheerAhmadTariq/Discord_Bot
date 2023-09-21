@@ -1,2 +1,0 @@
-export OPENAI_API_KEY=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
-python doc_memory_chain.py

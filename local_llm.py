@@ -158,7 +158,7 @@ async def generate_response(user_id, user_name, user_message):
                     character_data['history'] = result
 
                     # print(f"{character_data['char_name']}(AI) responded: {str(response_text)}")
-                    update_cache_history(user_id, result)
+                    await update_cache_history(user_id, result)
 
                     if len(num_of_messages) % 15 == 0:
                         loop = asyncio.get_event_loop()

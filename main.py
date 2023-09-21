@@ -4,10 +4,12 @@ from fastapi import FastAPI
 import asyncio
 from pydantic import BaseModel
 from local_llm import generate_response
-from transcribe_audio import oga_2_mp3_2_text
+from transcribe_audio import oga_2_mp3_2_text, speech_to_text, base64_to_audio
 from server_utils import check_user
 from helpers import delete_cache_history
 from database import get_user
+from text_to_speech import get_audio
+from util import update_time, update_text_time
 app = FastAPI()
 origins = ["http://localhost:3000"]  # Replace with the actual URL of your Next.js app
 app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
@@ -24,20 +26,28 @@ class Message(BaseModel):
 @app.post("/generate_response_llm")
 async def generate_response_llm(message: Message):
     try:
-        g_response, message = check_user(user_id=message.user_id, user_name=message.user_name)
+        g_response, response = check_user(user_id=message.user_id, user_name=message.user_name)
+        
         print("message: ", message)
         if g_response:
+            _, user = get_user(message.user_id)
             voice_response = False
-            if 'voice_response' in message:
-                voice_response = message['voice_response']
-            response = "hello from local_llm"
-            # response = await generate_response(message.user_id, message.user_name, message.message)
+            if 'voice_response' in response:
+                voice_response = response['voice_response']
+            # response = "hello from local_llm"
+            text_start_time = time.time()
+            response = await generate_response(message.user_id, message.user_name, message.message)
+            text_end_time = time.time()
             if voice_response:
-                return {"audio_file": 'hfajfafaa.wav'}
+                # audio_path, audio_duration = get_audio(message.user_id, response)
+                # update_time(user['last_message_time'], 0, message.user_id, audio_duration)
+                return {"message": "audio_outputs/1791878032/JenFoxxx.mp3", "is_audio": True}
             else:
-                return {"message": response}
-        # response = "hello from local_llm"
-        # await asyncio.sleep(10)
+                length_of_message = len(response.split())
+                update_text_time(user['last_message_time'], text_start_time, message.user_id, text_end_time, True, length_of_message)
+                return {"message": response, "is_audio": False}
+        else:
+            return {"message": response, "is_audio": False}    
         return message
     except Exception as e:
         print("Error is", e)
@@ -51,23 +61,31 @@ class AudioMessage(BaseModel):
 @app.post("/generate_response_llm_audio")
 async def generate_response_llm_audio(message: AudioMessage):
     try:
-        g_response, message = check_user(user_id=message.user_id, user_name=message.user_name)
-        print("message: ", message)
+        g_response, response = check_user(user_id=message.user_id, user_name=message.user_name)
+        print("message: ", response)
         if g_response:
+            _, user = get_user(message.user_id)
             voice_response = False
-            if 'voice_response' in message:
-                voice_response = message['voice_response']
-            transcription = oga_2_mp3_2_text(message.audio_file_path)
-            response = "hello from local_llm audio"
-            # response = transcription
-            # response = await generate_response(message.user_id, message.user_name, message.message)
+            if 'voice_response' in response:
+                voice_response = response['voice_response']
+            # message.audio_file_path = "./audio_inputs/"+message.audio_file_path.split(".ogg")[0]
+            # message.audio_file_path = "./audio_inputs/" + message.audio_file_path
+            base64_to_audio(message.audio_file_path, output_file_path=f"./audio_inputs/{message.user_id}_output.wav")
+            transcription = speech_to_text(f"./audio_inputs/{message.user_id}_output.wav")
+            text_start_time = time.time()
+            response = await generate_response(message.user_id, message.user_name, transcription)
+            text_end_time = time.time()
             if voice_response:
-                return {"audio_file": 'hfajfafaa.wav'}
+                audio_path, audio_duration = get_audio(message.user_id, response)
+                update_time(user['last_message_time'], 0, message.user_id, audio_duration)
+                return {"message": audio_path, "is_audio": True}
             else:
-                return {"message": response}
-        # response = "hello from local_llm"
-        # await asyncio.sleep(10)
-        return message
+                length_of_message = len(response.split())
+                update_text_time(user['last_message_time'], text_start_time, message.user_id, text_end_time, True, length_of_message)
+                return {"message": response, "is_audio": False}
+        else:
+            return {"message": response, "is_audio": False}    
+       
     except Exception as e:
         print("Error is", e)
         return {"message": "error in backend"}
@@ -78,7 +96,7 @@ class ClearMessage(BaseModel):
 async def clear(user: ClearMessage):
     user_id = user.user_id
     delete_cache_history(user_id)
-    return {"message": "success"}
+    return {"message": True}
 
 class BalanceMessage(BaseModel):
     user_id: str
@@ -88,9 +106,9 @@ async def balance(user: BalanceMessage):
     found, user = get_user(user_id)
     if found:
         amount = round(user['last_message_time']/60, 2)
-        message_str = f"Your remaining balance is **{amount}$**."
+        message_str = str(amount)
         return {"message": message_str}
     else:
-        message_str = f"Your balance is **0$**."
+        message_str = "0"
         return {"message": message_str}
     

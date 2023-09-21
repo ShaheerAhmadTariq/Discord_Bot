@@ -24,3 +24,5 @@ models/config-user.yaml
 
 .DS_Store
 Thumbs.db
+/models
+/.ipynb_checkpoints

@@ -1,1 +1,0 @@
-python update_doc_indexing.py

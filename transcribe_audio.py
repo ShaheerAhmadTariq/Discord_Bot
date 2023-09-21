@@ -43,3 +43,35 @@ def oga_2_mp3_2_text(filename):
         print("Audio files deleted.")
 
     return transcript.text if transcript else ""
+import whisper
+model = whisper.load_model("base")
+
+
+def speech_to_text(audio_file_path):
+    return model.transcribe(audio_file_path)['text']
+
+import base64
+import subprocess
+
+def base64_to_audio(base64_data, output_file_path="output.wav"):
+    # try:
+        # Decode Base64 data to binary
+        audio_bytes = base64.b64decode(base64_data)
+
+        # Use subprocess to run FFmpeg with the binary data as input
+        ffmpeg_command = [
+            "ffmpeg",
+            "-f", "s16le",  # Input format as 32-bit float
+            "-ar", "44100",  # Sample rate
+            "-ac", "1",  # Mono audio
+            "-i", "pipe:0",  # Read from stdin
+            "-y",  # Overwrite output file if it exists
+            "-f", "s16le",  # Output format as 16-bit signed integer
+            output_file_path,  # Output file path
+        ]
+        # Run FFmpeg with the specified command
+        subprocess.run(ffmpeg_command, input=audio_bytes, check=True)
+
+        print(f"Successfully converted and saved to {output_file_path}")
+    # except Exception as e:
+        # print(f"Error converting Base64 to audio: {str(e)}")
