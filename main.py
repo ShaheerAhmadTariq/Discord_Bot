@@ -51,7 +51,7 @@ async def generate_response_llm(message: Message):
         return message
     except Exception as e:
         print("Error is", e)
-        return {"message": "error in backend"}
+        return {"message": "Please ask again"}
 
 
 class AudioMessage(BaseModel):
@@ -88,7 +88,7 @@ async def generate_response_llm_audio(message: AudioMessage):
        
     except Exception as e:
         print("Error is", e)
-        return {"message": "error in backend"}
+        return {"message": "Please ask again"}
     
 class ClearMessage(BaseModel):
     user_id: str
