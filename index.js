@@ -39,6 +39,7 @@ bot.onText(/\/text/, async (message) => {
   const { chatId, userId } = userInfo(message);
   // send back the matched "whatever" to the chat
   await sendTextCommandToApi(userId);
+  console.log(message);
   bot.sendMessage(chatId, "You will receive text messages onwards.", {
     parse_mode: "Markdown",
   });
@@ -121,7 +122,9 @@ bot.on("voice", async (message) => {
     if (is_audio) {
       const path = `../../Discord_Bot-dev-server/${reply}`;
       const audio = fs.readFileSync(path);
-      bot.sendAudio(chatId, audio);
+      bot.sendVoice(chatId, audio, {
+        reply_to_message_id: message.message_id, // Optional: To make it a reply
+      });
       fs.unlink(path, (err) => {
         if (err) {
           console.error(`Error deleting file: ${err}`);
@@ -130,7 +133,9 @@ bot.on("voice", async (message) => {
         }
       });
     } else {
-      bot.sendMessage(chatId, reply);
+      bot.sendMessage(chatId, reply, {
+        reply_to_message_id: message.message_id,
+      });
     }
   } catch (err) {
     console.error(err.message);
@@ -154,7 +159,9 @@ bot.on("text", async (message) => {
     if (is_audio) {
       const path = `../../Discord_Bot-dev-server/${reply}`;
       const audio = fs.readFileSync(path);
-      bot.sendAudio(chatId, audio);
+      bot.sendVoice(chatId, audio, {
+        reply_to_message_id: message.message_id, // Optional: To make it a reply
+      });
       fs.unlink(path, (err) => {
         if (err) {
           console.error(`Error deleting file: ${err}`);
@@ -163,7 +170,9 @@ bot.on("text", async (message) => {
         }
       });
     } else {
-      bot.sendMessage(chatId, reply);
+      bot.sendMessage(chatId, reply, {
+        reply_to_message_id: message.message_id,
+      });
     }
 
     // Your bot's logic for responding to regular messages goes here
