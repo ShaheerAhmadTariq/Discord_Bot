@@ -5,7 +5,7 @@ import asyncio
 from pydantic import BaseModel
 from local_llm import generate_response
 from transcribe_audio import oga_2_mp3_2_text, speech_to_text, base64_to_audio
-from server_utils import check_user
+from server_utils import check_user, parse_response
 from helpers import delete_cache_history
 from database import get_user, change_voice
 from text_to_speech import get_audio
@@ -25,7 +25,7 @@ class Message(BaseModel):
     user_name: str
 @app.post("/generate_response_llm")
 async def generate_response_llm(message: Message):
-    try:
+    # try:
         g_response, response = check_user(user_id=message.user_id, user_name=message.user_name)
         
         print("message: ", message)
@@ -47,13 +47,13 @@ async def generate_response_llm(message: Message):
                 length_of_message = len(response.split())
                 if found:
                     update_text_time(user['last_message_time'], text_start_time, message.user_id, text_end_time, True, length_of_message)
-                return {"message": response, "is_audio": False}
+                return {"message": parse_response(response), "is_audio": False}    
         else:
             return {"message": response, "is_audio": False}    
         return message
-    except Exception as e:
-        print("Error is", e)
-        return {"message": "Please ask again"}
+    # except Exception as e:
+    #     print("Error is", e)
+    #     return {"message": "Please ask again"}
 
 
 class AudioMessage(BaseModel):
@@ -86,9 +86,9 @@ async def generate_response_llm_audio(message: AudioMessage):
                 length_of_message = len(response.split())
                 if found:
                     update_text_time(user['last_message_time'], text_start_time, message.user_id, text_end_time, True, length_of_message)
-                return {"message": response, "is_audio": False}
+                return {"message": parse_response(response), "is_audio": False}    
         else:
-            return {"message": response, "is_audio": False}    
+            return {"message": response, "is_audio": False}       
        
     except Exception as e:
         print("Error is", e)

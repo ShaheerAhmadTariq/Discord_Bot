@@ -11,7 +11,7 @@ def check_user(user_id, user_name):
                 return True, {'message':""}
             else:
                 # return await message.reply(embed=embed, view=view)
-                return False,{'message': "You have used all your free messages, please subscribe to continue using the bot."}
+                return False,"You have used all your free messages, please subscribe to continue using the bot."
         else:
             print("Not found in Free Trial, adding 5 messages")
             create_user_free(user_id)
@@ -21,12 +21,12 @@ def check_user(user_id, user_name):
         # return await message.reply(embed=embed, view=view)
     else:
         if not user['payment_status']:
-            return False, {'message': "You have used all your credets, please subscribe to continue using the bot."}
+            return False, "You have used all your credets, please subscribe to continue using the bot."
         # Calculate the elapsed time since the user started the conversation
         if user['last_message_time'] <= 0:
             update_user(user_id)
             
-            return False, {'message': "You have used all your credets, please subscribe to continue using the bot."}
+            return False, "You have used all your credets, please subscribe to continue using the bot."
     create_or_update_user_extra(user_id)
     # Remove the following line if you're not using MongoDB
     _, message_history,_, _ = connect_to_db()
@@ -40,3 +40,14 @@ def check_user(user_id, user_name):
         voice_response = user_preference['voice']
 
     return True, {'voice_response': voice_response}
+
+def parse_response(str_with_quotes):
+    # Remove all double quotations from the beginning
+    while str_with_quotes.startswith('"'):
+        str_with_quotes = str_with_quotes[1:]
+
+    # Remove all double quotations from the end
+    while str_with_quotes.endswith('"'):
+        str_with_quotes = str_with_quotes[:-1]
+
+    return str_with_quotes
