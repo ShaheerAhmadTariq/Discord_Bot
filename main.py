@@ -25,7 +25,7 @@ class Message(BaseModel):
     user_name: str
 @app.post("/generate_response_llm")
 async def generate_response_llm(message: Message):
-    # try:
+    try:
         g_response, response = check_user(user_id=message.user_id, user_name=message.user_name)
         
         print("message: ", message)
@@ -51,9 +51,9 @@ async def generate_response_llm(message: Message):
         else:
             return {"message": response, "is_audio": False}    
         return message
-    # except Exception as e:
-    #     print("Error is", e)
-    #     return {"message": "Please ask again"}
+    except Exception as e:
+        print("Error is", e)
+        return {"message": "Please ask again"}
 
 
 class AudioMessage(BaseModel):
