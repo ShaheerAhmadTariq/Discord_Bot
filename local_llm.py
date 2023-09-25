@@ -31,7 +31,7 @@ async def get_prompt(user_id, user_name, user_message, regenerate, character_dat
     request = {
         'user_input': user_message,
         'history': character_data['history'],
-        'mode': 'chat',  # Valid options: 'chat', 'chat-instruct', 'instruct'
+        'mode': 'chat-instruct',  # Valid options: 'chat', 'chat-instruct', 'instruct'
         'character': character_data['file_name'],
         'instruction_template': 'None', #I'm really not sure why we have instruction templates now...
         'your_name': user_name,
