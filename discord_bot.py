@@ -36,7 +36,10 @@ def parse_response(str_with_quotes):
     # Remove all double quotations from the end
     while str_with_quotes.endswith('"'):
         str_with_quotes = str_with_quotes[:-1]
+    char_to_remove = ['/', '\\']
 
+    for char in char_to_remove:
+        str_with_quotes = str_with_quotes.replace(char, '')
     return str_with_quotes
 
 def print_current_time(str_to_print):
